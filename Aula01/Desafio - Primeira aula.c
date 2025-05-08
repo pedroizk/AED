@@ -1,3 +1,5 @@
+// Exercicio feito apenas em aula, não concluido
+
 #include <stdio.h>
 #include <string.h>
 
