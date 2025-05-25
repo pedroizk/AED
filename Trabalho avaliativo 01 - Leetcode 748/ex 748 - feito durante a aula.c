@@ -13,10 +13,10 @@ char* shortestCompletingWord(char* licensePlate, char** words, int wordsSize) {
     char *temp;
     
     for(int i = 0; i < (int)strlen(licensePlate); i++) {
-        if(tolower((unsigned char)licensePlate[i]) >= 'a' &&
-           tolower((unsigned char)licensePlate[i]) <= 'z') {
+        if(tolower(licensePlate[i]) >= 'a' &&
+           tolower(licensePlate[i]) <= 'z') {
             wordVector = realloc(wordVector, sizeof(char) * (contador + 1));
-            wordVector[contador - 1] = tolower((unsigned char)licensePlate[i]);
+            wordVector[contador - 1] = tolower(licensePlate[i]);
             wordVector[contador] = '\0';
             contador++;
         }
@@ -32,7 +32,7 @@ char* shortestCompletingWord(char* licensePlate, char** words, int wordsSize) {
         contador4 = 0;
         for(int j = 0; j < tamanhoLetras; j++) {
             while(words[i][contador4] != '\0') {
-                if(tolower((unsigned char)words[i][contador4]) == wordVector[j]) {
+                if(tolower(words[i][contador4]) == wordVector[j]) {
                     contador3++;
                 }
                 contador4++;

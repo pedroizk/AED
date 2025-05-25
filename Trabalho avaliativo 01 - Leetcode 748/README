@@ -1,0 +1,18 @@
+Nome: Pedro Izkovitz
+Matrícula: 24100320
+Turma: M1
+
+Esse trabalho avaliativo é sobre o problema 748 do leetcode. 
+Durante o período de aula consegui concluir apenas da metade da lógica que tinha estabelecido.
+
+Processo lógico: (durante o período da aula)
+-> Separar todas as letras presentes nos caractéres da placa ✅ 
+-> Verificar se todas as letras estavam presentes na palavra a ser comparada ❌
+-> Verificar qual das palavras tinha a maior quantidade de letras iguais ❌
+
+Principais problemas:
+-> Demorei muito para lembrar como utilizava o realloc
+-> Após conseguir utilizar, me esqueci do que o exercício realmente pedia.
+   Acabei apenas verificando qual das palavras tinha a maior quantidade de letras,
+   mas não se ela tinha todas as letras necessárias.
+

@@ -66,6 +66,7 @@ char* ShortestCompletingWord( char* licensePlate, char** words, int wordsSize ) 
 	}
 
 	free( wordVector );
+	
 	return words[shortestIndex];
 }
 
