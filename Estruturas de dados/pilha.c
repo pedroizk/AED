@@ -4,17 +4,16 @@
 #define MAX 10000
 
 typedef struct {
-    char data;
+    char data[MAX];
     int topo;
     int base;
-    int limite;
-} *pile;
+} Pile;
 
 
-void initPile(*pile)
+void initPile(Pile* pilha)
 {
-    pile->data = '';
 
+    pilha->data[0] = ;
 
 }
 
@@ -22,6 +21,6 @@ void initPile(*pile)
 
 int main(void) {
 
-    pile *pilha;
+    Pile *pilha;
     initPilha(pilha);
 }

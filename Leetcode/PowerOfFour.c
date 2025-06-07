@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include <stdlib.h>
+
 bool isPowerOfFour(int n) {
     // 1 - 4 - 16 - 64
 
