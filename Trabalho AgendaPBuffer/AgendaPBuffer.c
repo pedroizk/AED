@@ -6,40 +6,42 @@
 #include <stdlib.h>
 #include <string.h>
 
-void  AdicionarPessoa(void** pBuffer, int* tamanhoPbuffer);
-void * LerTudo(void* pBuffer, char* ponteiroDeAjuda);
+void  AdicionarPessoa(void** pBuffer, int* tamanhoPbuffer, int* qPalavras);
+void  LerTudo(void** pBuffer, int* qPalavras, int*tamanho);
+void RemoverPessoa(void** pBuffer, int* qPalavras, int* tamanho);
+
 
 int main(void) {
 
     // DELIMITANDO PBUFFER E 03 ESPACOES INICIAIS
-    void* pBuffer = malloc(sizeof(int) * 2 + sizeof(char));
+    void* pBuffer = malloc(sizeof(int) * 3);
     
     int* tamanhoBuffer = (int*)pBuffer;
-    *tamanhoBuffer = sizeof(int) * 2 + sizeof(char);
-    
     int* escolha = (int*)(pBuffer + sizeof(int));
-    char* final = (char*)(pBuffer + (sizeof(int) * 2));
-    *final = '\0';
+    int* qPalavras = (int*)(pBuffer + sizeof(int) * 2);
 
+    *tamanhoBuffer = sizeof(int) * 3;
+    *qPalavras = 0;    
+    
     
     
     while(*escolha != 5)
     {
 
-        if(*escolha) {
-            printf("Escolha uma das opções a seguir: \n 01: Adicionar uma pessoa \n 02: Remover pessoa \n 03: Buscar pessoa \n 04: Listar todos \n 05: Sair \n Escolha sua opção: ");
-            scanf("%i", escolha);
+        
+        printf("Escolha uma das opções a seguir: \n 01: Adicionar uma pessoa \n 02: Remover pessoa \n 03: Buscar pessoa \n 04: Listar todos \n 05: Sair \n Escolha sua opção: ");
+        scanf("%i", escolha);
 
-        }
+        
 
         if(*escolha == 1)
-            AdicionarPessoa(&pBuffer, tamanhoBuffer); // CORRIGIDO: passa referência de pBuffer
+            AdicionarPessoa(&pBuffer, tamanhoBuffer, qPalavras); 
         else if(*escolha == 2)
-            printf("Remover pessoa\n");
+            RemoverPessoa(&pBuffer, tamanhoBuffer, qPalavras); 
         else if(*escolha == 3)
             printf("Buscar pessoa\n");
         else if(*escolha == 4)
-            LerTudo(pBuffer, (char*)pBuffer + sizeof(int) * 2);
+            LerTudo(&pBuffer, qPalavras, tamanhoBuffer);
         else if(*escolha == 5)
             printf("Sair\n");
         
@@ -55,28 +57,19 @@ int main(void) {
 }
 
 
-void  AdicionarPessoa(void** pBuffer, int* tamanhoPbuffer)
+void  AdicionarPessoa(void** pBuffer, int* tamanhoPbuffer, int* qPalavras)
 {
 
     // Criar espaco maximo padrao
-    *pBuffer = realloc(*pBuffer, *tamanhoPbuffer + sizeof(char) + sizeof(char) * 50 + sizeof(char) * 50 + sizeof(int) + sizeof(char) * 2);
+    *pBuffer = realloc(*pBuffer, *tamanhoPbuffer + sizeof(char) * 50 + sizeof(char) * 50 + sizeof(int) + sizeof(char) * 1);
 
-    // Preciso agora alocar colocar o { e ja exclui o \0
-    char* base = (char*)(*pBuffer);
-    char* delimitador = base + *tamanhoPbuffer;
-    *delimitador = '{';
-    *tamanhoPbuffer += sizeof(char);
 
     // Agora inserir nome
+    char* base = (char*)(*pBuffer); // base aponta para o primeiro espaco de memoria de pBuffer, serve para somarmos com o valor de tamanhoPbuffer
     char* nome = base + *tamanhoPbuffer;
     printf("============== \n Insira seu nome: ");
     scanf("%49s", nome); // limitar tamanho do nome 
-    *tamanhoPbuffer += strlen(nome);
-
-    // inserir ,
-    char* virgula = base + *tamanhoPbuffer;
-    *virgula = ',';
-    *tamanhoPbuffer += sizeof(char);
+    *tamanhoPbuffer += strlen(nome) + 1;
 
     // Inserir idade 
     int* idade = (int*)(base + *tamanhoPbuffer);
@@ -84,37 +77,76 @@ void  AdicionarPessoa(void** pBuffer, int* tamanhoPbuffer)
     scanf("%i", idade);
     *tamanhoPbuffer += sizeof(int);
 
-    // Inserir ,
-    char* virgula2 = base + *tamanhoPbuffer;
-    *virgula2 = ',';
-    *tamanhoPbuffer += sizeof(char);
-
+    // Por fim inserir o email
     char* email = base + *tamanhoPbuffer;
     printf("============== \n Insira seu email: ");
     scanf("%49s", email); // mesma coisa para o emial
-    *tamanhoPbuffer += strlen(email);
+    *tamanhoPbuffer += strlen(email)+1;
 
-    char* delimitador2 = base + *tamanhoPbuffer;
-    *delimitador2 = '}';
-    *tamanhoPbuffer += sizeof(char);
 
-    char* finaliza = base + *tamanhoPbuffer;
-    *finaliza = '\0';
 
     // Realoca o espaco apenas para o necessario 
-    *pBuffer = realloc(*pBuffer, *tamanhoPbuffer + 1); // inclui o \0 final
+    *pBuffer = realloc(*pBuffer, *tamanhoPbuffer); // inclui o \0 final
+    *base = *tamanhoPbuffer;
+    *qPalavras += 1;
 }
 
 
 
-void * LerTudo(void* pBuffer, char* ponteiroDeAjuda)
+void  LerTudo(void** pBuffer, int* qPalavras, int* tamanho)
 {
-    ponteiroDeAjuda = pBuffer;
+    char* base = (char*)(*pBuffer); // Acessando o espaço de memória de tamanhoPbuffer;
+    *pBuffer = realloc(*pBuffer, *tamanho + sizeof(int));
+    int* auxiliar = (int*)(base+*tamanho);
 
-    while(*ponteiroDeAjuda != '\0')
+    base += sizeof(int) * 3; // pula os 3 ints iniciais, agora aponta para primeira palavra
+    
+    printf("========== Listagem de contatos ========== \n\n");
+    for(*auxiliar = 0; *auxiliar < *qPalavras; (*auxiliar)++)
     {
-        printf("%c",*ponteiroDeAjuda);
-        ponteiroDeAjuda += 1;
+        printf("=======================\n");
+        printf("Contato %i\n\n", *auxiliar + 1);
+        printf("Nome: ");
+        printf("%s \n", base);
+        base += strlen(base) + 1;
+        printf("Idade: %i\n", *(int*)base);
+        base += sizeof(int);
+        printf("Email: ");
+        printf("%s \n", base);
+        base += strlen(base) + 1;
+        printf("=======================\n\n");
+
     }
+    printf("========================================= \n");
+
+    *pBuffer = realloc(*pBuffer, *tamanho);
+    
+}
+ 
+void RemoverPessoa(void** pBuffer, int* qPalavras, int* tamanho) {
+
+    char* base = (char*)(*pBuffer); 
+    *pBuffer = realloc(*pBuffer, *tamanho + sizeof(int) + sizeof(char) * 50);
+    int* contadorAuxiliar = (int*)(base+*tamanho);
+    char* nomeASerRemovido = (char*)(base+*tamanho+sizeof(int));
+
+    base += sizeof(int) * 3; 
+
+    printf("Nome da pessoa a ser removida: ");
+    scanf("%s", nomeASerRemovido);
+
+    for(*contadorAuxiliar = 0; *contadorAuxiliar < *qPalavras; (*contadorAuxiliar)++)
+    {
+        if(strcmp(base, nomeASerRemovido) == 0)
+        {
+            printf("Achei");
+            break;
+        }
+        base += strlen(base) + 1;
+        base += sizeof(int);
+        base += strlen(base) + 1;
+    }
+
+
 
 }
