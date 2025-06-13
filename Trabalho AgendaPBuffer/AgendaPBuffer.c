@@ -125,21 +125,30 @@ void  LerTudo(void** pBuffer, int* qPalavras, int* tamanho)
  
 void RemoverPessoa(void** pBuffer, int* qPalavras, int* tamanho) {
 
-    char* base = (char*)(*pBuffer); 
     *pBuffer = realloc(*pBuffer, *tamanho + sizeof(int) + sizeof(char) * 50);
+    char* base = (char*)(*pBuffer); 
     int* contadorAuxiliar = (int*)(base+*tamanho);
     char* nomeASerRemovido = (char*)(base+*tamanho+sizeof(int));
 
     base += sizeof(int) * 3; 
+    int*ponteiro_auxiliar = (int*)(base - sizeof(int));
 
     printf("Nome da pessoa a ser removida: ");
     scanf("%s", nomeASerRemovido);
+
 
     for(*contadorAuxiliar = 0; *contadorAuxiliar < *qPalavras; (*contadorAuxiliar)++)
     {
         if(strcmp(base, nomeASerRemovido) == 0)
         {
-            printf("Achei");
+            *ponteiro_auxiliar = *ponteiro_auxiliar = strlen(base) + 1                            
+                            + sizeof(int)                                     
+                            + strlen(base + strlen(base) + 1 + sizeof(int)) + 1;
+
+            memmove(base, base + *ponteiro_auxiliar, *tamanho - (*ponteiro_auxiliar));
+            *pBuffer = realloc(*pBuffer, *tamanho -  (*ponteiro_auxiliar));
+
+            *qPalavras -= 1;
             break;
         }
         base += strlen(base) + 1;
@@ -147,6 +156,8 @@ void RemoverPessoa(void** pBuffer, int* qPalavras, int* tamanho) {
         base += strlen(base) + 1;
     }
 
+    *pBuffer = realloc(*pBuffer, *tamanho - *ponteiro_auxiliar);
+    *ponteiro_auxiliar = 2;
 
 
 }
