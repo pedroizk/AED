@@ -3,7 +3,7 @@
 #include <string.h>
 
 void AdicionarPessoa( void **pBuffer, int *tamanhoPbuffer, int *qPalavras );
-void LerTudo( void **pBuffer);
+void LerTudo( void **pBuffer, int *qPalavras, int *tamanho );
 void RemoverPessoa( void **pBuffer, int *qPalavras, int *tamanho );
 
 
@@ -55,7 +55,7 @@ int main( void )
             *ponteiro_auxiliar = 0;
 
         } else if ( *escolha == 4 ) {
-            LerTudo( &pBuffer);
+            LerTudo( &pBuffer, qPalavras, tamanhoBuffer );
 
         } else if ( *escolha == 5 ) {
             printf( "Sair\n" );
@@ -115,7 +115,7 @@ LerTudo
  Lista todas as pessoas cadastradas.
 ====================
 */
-void LerTudo( void **pBuffer)
+void LerTudo( void **pBuffer, int *qPalavras, int *tamanho )
 {
 
     // Lógica básica:
@@ -124,22 +124,19 @@ void LerTudo( void **pBuffer)
     // Loopa no e vai escrevendo as pessoas -> 
     // No final um realloc para tirar aquela váriavel auxiliar do pBuffer
 
-    if ( *(int*)(*pBuffer + sizeof(int) * 2) == 0 ) {
+
+    if ( *qPalavras == 0 ) {
         printf( "\n==============\nNenhuma pessoa na agenda\n==============\n" );
         return;
     }
 
-
-    // Inicio do pBuffer tirando os 3 blocos de memória padrão
-    char *base = (char *)( *pBuffer ) + sizeof( int ) * 3;
-
-    // Variável auxiliar que vai pro final do pBuffer, serve para que o loop funcione
-    int *auxiliar = (int *)( (char *)( *pBuffer ) + sizeof(int) );
-    *auxiliar = 0;
+    *pBuffer = realloc( *pBuffer, *tamanho + sizeof( int ) );
+    char *base = (char *)( *pBuffer ) + sizeof( int ) * 3; // Inicio do pBuffer tirando os 3 blocos de memória padrão
+    int *auxiliar = (int *)( (char *)( *pBuffer ) + *tamanho ); // Variável auxiliar que vai pro final do pBuffer, serve para que o loop funcione
 
     printf( "\n========== Listagem de contatos ==========\n\n" );
 
-    for ( *auxiliar = 0; *auxiliar < *(int*)(*pBuffer + sizeof(int) * 2); ( *auxiliar )++ ) {
+    for ( *auxiliar = 0; *auxiliar < *qPalavras; ( *auxiliar )++ ) {
         printf( "=======================\n" );
         printf( "Contato %d\n\n", *auxiliar + 1 );
         printf( "Nome: %s\n", base );
@@ -153,8 +150,7 @@ void LerTudo( void **pBuffer)
         printf( "=======================\n\n" );
     }
 
-    *auxiliar = 4;
-    return;
+    *pBuffer = realloc( *pBuffer, *tamanho );
 }
 
 /*
