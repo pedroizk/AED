@@ -80,13 +80,7 @@ int main(void)
 //=============================================================================
 void AdicionarPessoa(void **pBuffer, int *tamanhoPbuffer, int *qPalavras)
 {
-    void *tmp = realloc(*pBuffer, *tamanhoPbuffer + 50 + sizeof(int) + 50);
-    if (!tmp)
-    {
-        printf("Erro ao realocar memória!\n");
-        return;
-    }
-    *pBuffer = tmp;
+    *pBuffer = realloc(*pBuffer, *tamanhoPbuffer + 50 + sizeof(int) + 50);
 
     // Recalcula ponteiros no novo bloco
     tamanhoPbuffer = (int *)(*pBuffer);
@@ -113,13 +107,7 @@ void AdicionarPessoa(void **pBuffer, int *tamanhoPbuffer, int *qPalavras)
     *tamanhoPbuffer += strlen(email) + 1;
 
     // 2º realloc: ajusta bloco ao tamanho exato de dados
-    tmp = realloc(*pBuffer, *tamanhoPbuffer);
-    if (!tmp)
-    {
-        printf("Erro ao realocar memória!\n");
-        return;
-    }
-    *pBuffer = tmp;
+    *pBuffer = realloc(*pBuffer, *tamanhoPbuffer);
 
     // Recalcula de novo e incrementa contador
     tamanhoPbuffer = (int *)(*pBuffer);
@@ -143,13 +131,8 @@ void LerTudo(void **pBuffer, int *qPalavras, int *tamanho)
     }
 
     // Expande para inserir contador auxiliar ao final
-    void *tmp = realloc(*pBuffer, *tamanho + sizeof(int));
-    if (!tmp)
-    {
-        printf("Erro ao realocar memória!\n");
-        return;
-    }
-    *pBuffer = tmp;
+   *pBuffer = realloc(*pBuffer, *tamanho + sizeof(int));
+
 
     // Recalcula ponteiros após realloc
     tamanho = (int *)(*pBuffer);
@@ -173,13 +156,8 @@ void LerTudo(void **pBuffer, int *qPalavras, int *tamanho)
     printf("\n-----------------------\n");
 
     // Remove espaço do auxiliar
-    tmp = realloc(*pBuffer, *tamanho);
-    if (!tmp)
-    {
-        printf("Erro ao realocar memória!\n");
-        return;
-    }
-    *pBuffer = tmp;
+   *pBuffer  = realloc(*pBuffer, *tamanho);
+
 }
 
 //=============================================================================
@@ -192,13 +170,7 @@ void RemoverPessoa(void **pBuffer, int *qPalavras, int *tamanho)
     qPalavras = (int *)(*pBuffer + sizeof(int) * 2);
 
     // 1º realloc: espaço p/ contador e nome temporário
-    void *tmp = realloc(*pBuffer, *tamanho + sizeof(int) + 50);
-    if (!tmp)
-    {
-        printf("Erro ao realocar memória!\n");
-        return;
-    }
-    *pBuffer = tmp;
+    *pBuffer = realloc(*pBuffer, *tamanho + sizeof(int) + 50);
 
     // Recalcula após realloc
     tamanho = (int *)(*pBuffer);
@@ -241,13 +213,7 @@ void RemoverPessoa(void **pBuffer, int *qPalavras, int *tamanho)
             *qPalavras -= 1;
 
             // 2º realloc: reduz bloco
-            tmp = realloc(*pBuffer, *tamanho);
-            if (!tmp)
-            {
-                printf("Erro ao realocar memória!\n");
-                return;
-            }
-            *pBuffer = tmp;
+             *pBuffer = realloc(*pBuffer, *tamanho);
 
             // Recalcula ponteiros depois do realloc
             tamanho = (int *)(*pBuffer);
