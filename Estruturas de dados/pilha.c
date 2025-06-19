@@ -20,7 +20,7 @@ Pilhas
 // Estrutura básica que penso inicialmente. Fazer uma struct, ela irá conter: topo e o array iniciado em zero
 // Topo será o valor de items na pilha
 
-// Consegui fazer a pilha! Maiores problemas foram de sintexe, a lógica da estrutura é bem simples
+// Consegui fazer a pilha! Maiores problemas foram de sintaxe, a lógica da estrutura é bem simples
 
 #include <stdio.h>
 #include <stdlib.h>

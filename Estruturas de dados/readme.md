@@ -6,6 +6,6 @@
 ## Estruturas planejadas
 
 - [ ] Lista encadeada
-- [ ] Pilha
+- [x] Pilha
 - [ ] Fila
 - [ ] Árvore binária
