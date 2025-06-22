@@ -1,4 +1,4 @@
-    // Testo no qual vou me basear
+    // Texto no qual vou me basear
 
     /*
     Pilhas
