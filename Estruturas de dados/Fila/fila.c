@@ -89,7 +89,6 @@ int dequeue(Fila * fila) {
 
 }
 
-
 void printarFila(Fila* fila) {
 
     printf("===== Valores da fila ===== \n");
