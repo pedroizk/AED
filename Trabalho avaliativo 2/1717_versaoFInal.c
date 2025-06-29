@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+
 typedef struct {
     int topo;
     char* pilha;
@@ -19,15 +20,7 @@ int maximumGain(char* s, int x, int y) {
     int capacidade = strlen(s);
     Stack* p = inicializar(capacidade);
     Stack* p2 = inicializar(capacidade);
-    char* aux1 = s;
-    char* aux2 = NULL;
-    
 
-    if (strlen(s) > 1)
-        aux2 = s + 1;
-
-    int t = strlen(s);
-    char valor;
     int pontos = 0;
     char* stringAux = malloc(strlen(s) + 1);
 
@@ -54,6 +47,12 @@ int maximumGain(char* s, int x, int y) {
         printf("%s", stringAux);
         pontos += counterBA(stringAux, x, p2);
     }
+
+    free(stringAux);
+    free(p->pilha);
+    free(p);
+    free(p2->pilha);
+    free(p2);
 
     return pontos;
 }
@@ -132,4 +131,33 @@ char pop(Stack* pilha) {
     char valor_a_retornar = pilha->pilha[pilha->topo - 1];
     pilha->topo -= 1;
     return valor_a_retornar;
+}
+
+
+int main() {
+    char s1[] = "cdbcbbaaabab";
+    int x1 = 4, y1 = 5;
+    printf("String: %s, x: %d, y: %d -> Pontos: %d\n", s1, x1, y1, maximumGain(s1, x1, y1));
+
+    char s2[] = "ababaaab";
+    int x2 = 5, y2 = 3;
+    printf("String: %s, x: %d, y: %d -> Pontos: %d\n", s2, x2, y2, maximumGain(s2, x2, y2));
+
+    char s3[] = "aabbaaxybbaabb";
+    int x3 = 10, y3 = 5;
+    printf("String: %s, x: %d, y: %d -> Pontos: %d\n", s3, x3, y3, maximumGain(s3, x3, y3));
+
+    char s4[] = "";
+    int x4 = 10, y4 = 5;
+    printf("String: %s, x: %d, y: %d -> Pontos: %d\n", s4, x4, y4, maximumGain(s4, x4, y4));
+
+    char s5[] = "aaaaa";
+    int x5 = 10, y5 = 5;
+    printf("String: %s, x: %d, y: %d -> Pontos: %d\n", s5, x5, y5, maximumGain(s5, x5, y5));
+
+    char s6[] = "bbbbb";
+    int x6 = 10, y6 = 5;
+    printf("String: %s, x: %d, y: %d -> Pontos: %d\n", s6, x6, y6, maximumGain(s6, x6, y6));
+    
+    return 0;
 }
