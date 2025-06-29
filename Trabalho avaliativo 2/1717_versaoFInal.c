@@ -2,93 +2,120 @@
 #include <stdlib.h>
 #include <string.h>
 
+/*
+====================
+Definição da struct pilha
+*/
+typedef struct { 
 
-typedef struct {
-    int topo;
+    int topo; 
     char* pilha;
     int capacidade;
+
 } Stack;
 
-Stack* inicializar(int capacidade);
-char pop(Stack* pilha);
-void push(Stack* pilha, char valor);
-int counterAB(char* s, int x, Stack* p);
-int counterBA(char* s, int x, Stack* p);
+// Funções
+Stack* inicializar(int capacidade); // Inicializa a struct, capacidade = strlen(string)
+char pop(Stack* pilha); // Retira o último char da pilha e retorna-o 
+void push(Stack* pilha, char valor); // Insere um valor no primeiro espaço vazio da pilha
+int counterAB(char* s, int x, Stack* p); // Retira ab`s da pilha e retorna a quantidade de pontos
+int counterBA(char* s, int x, Stack* p); // Retira ba`s da pilha e retorna a quantidade de pontos
 
-int maximumGain(char* s, int x, int y) {
+/*
+====================
+maximumGain: retorna a quantidade maxima de pontos de uma string qualquer.
+*/
+int maximumGain( char* s, int x, int y ) {
 
-    int capacidade = strlen(s);
-    Stack* p = inicializar(capacidade);
-    Stack* p2 = inicializar(capacidade);
-
+    // Inicialização das pilhas
+    int capacidade = strlen( s );
+    Stack* p = inicializar( capacidade );
+    Stack* p2 = inicializar( capacidade );
     int pontos = 0;
-    char* stringAux = malloc(strlen(s) + 1);
 
-    if (x > y) {
-        pontos += counterAB(s, x, p);
+    // Cria uma string auxiliar
+    char * stringAux = malloc( strlen( s ) + 1 );
+
+    // Calcula os pontos quando ab vale mais que ba
+    if ( x > y ) {
+
+        // Primeiro calcula os pontos de ab
+        pontos += counterAB( s, x, p );
         int j = 0;
-        while (p->topo != 0) {
-            stringAux[j] = pop(p);
+        // agora os valores são retirados da pilha e para uma string, acontece a inversão dos elementos
+        while ( p->topo != 0 ) {
+            stringAux[j] = pop( p );
             j++;
         }
         stringAux[j] = '\0';
-        printf("%s", stringAux);
-        pontos += counterAB(stringAux, y, p2);
+        printf( "%s", stringAux );
+
+        // Mesma função é ativa, isso acontece porqu a funcão foi invertida
+        pontos += counterAB( stringAux, y, p2 );
+        
     }
 
     else {
-        pontos += counterBA(s, y, p);
+
+        pontos += counterBA( s, y, p );
         int j = 0;
         while (p->topo != 0) {
-            stringAux[j] = pop(p);
+            stringAux[j] = pop( p );
             j++;
         }
         stringAux[j] = '\0';
-        printf("%s", stringAux);
-        pontos += counterBA(stringAux, x, p2);
+        printf( "%s", stringAux );
+        pontos += counterBA( stringAux, x, p2 );
+         
     }
 
-    free(stringAux);
-    free(p->pilha);
-    free(p);
-    free(p2->pilha);
-    free(p2);
+    free( stringAux );
+    free( p->pilha );
+    free( p );
+    free( p2->pilha );
+    free( p2 );
 
     return pontos;
 }
 
-int counterAB(char* s, int x, Stack* p) {
+/*
+====================
+counterAB: recebe uma string, o valor dos pontos e uma pilha. Retira os ab's da string, coloca o resto dos valores na pilha e retorna a quantidade de pontos
+*/
+int counterAB( char* s, int x, Stack* p ) {
+    
     int pontos = 0;
-
-
     int t = strlen(s);
 
-    for (int i = 0; i < (t); i++) {
+    for ( int i = 0; i < (t); i++ ) {
 
-        if (i + 1 < t && s[i] == 'a' && s[i + 1] == 'b') {
+        if ( i + 1 < t && s[i] == 'a' && s[i + 1] == 'b' ) {
             i++;
             pontos += x;
 
         }
         
-         else if (s[i] == 'b' && p->topo > 0 &&
-                   p->pilha[p->topo - 1] == 'a') {
-            pop(p);
+         else if ( s[i] == 'b' && p->topo > 0 &&
+                   p->pilha[p->topo - 1] == 'a' ) {
+            pop( p );
             pontos += x;
         } 
         
         else {
             push(p, s[i]);
         }
-
     }
 
     return pontos;
+
 }
 
+/*
+====================
+counterBA: recebe uma string, o valor dos pontos e uma pilha. Retira os ba's da string, coloca o resto dos valores na pilha e retorna a quantidade de pontos
+*/
 int counterBA(char* s, int x, Stack* p) {
     int pontos = 0;
-    // qaawbbbwc
 
     int t = strlen(s);
 
@@ -112,18 +139,34 @@ int counterBA(char* s, int x, Stack* p) {
     return pontos;
 }
 
-Stack* inicializar(int capacidade) {
-    Stack* nova_pilha = malloc(sizeof(Stack));
+/*
+====================
+inicializar: Inicia a pilha e seta a capacidade máxima dela
+*/
+Stack* inicializar( int capacidade ) {
+
+    Stack* nova_pilha = malloc( sizeof( Stack ) );
     nova_pilha->topo = 0;
-    nova_pilha->pilha = malloc(sizeof(char) * capacidade);
+    nova_pilha->pilha = malloc( sizeof( char ) * capacidade );
     return nova_pilha;
+
 }
 
-void push(Stack* pilha, char valor) {
+/*
+====================
+push: Bota um valor na pilha e aumenta seu topo em 1
+*/
+void push( Stack* pilha, char valor ) {
+
     pilha->pilha[pilha->topo] = valor;
     pilha->topo += 1;
+
 }
 
+/*
+====================
+pop: Retira o último elemento da pilha, diminui o topo em 1 e retorna o valor retirado.
+*/
 char pop(Stack* pilha) {
     if (pilha->topo == 0)
         return '\0';
@@ -131,33 +174,4 @@ char pop(Stack* pilha) {
     char valor_a_retornar = pilha->pilha[pilha->topo - 1];
     pilha->topo -= 1;
     return valor_a_retornar;
-}
-
-
-int main() {
-    char s1[] = "cdbcbbaaabab";
-    int x1 = 4, y1 = 5;
-    printf("String: %s, x: %d, y: %d -> Pontos: %d\n", s1, x1, y1, maximumGain(s1, x1, y1));
-
-    char s2[] = "ababaaab";
-    int x2 = 5, y2 = 3;
-    printf("String: %s, x: %d, y: %d -> Pontos: %d\n", s2, x2, y2, maximumGain(s2, x2, y2));
-
-    char s3[] = "aabbaaxybbaabb";
-    int x3 = 10, y3 = 5;
-    printf("String: %s, x: %d, y: %d -> Pontos: %d\n", s3, x3, y3, maximumGain(s3, x3, y3));
-
-    char s4[] = "";
-    int x4 = 10, y4 = 5;
-    printf("String: %s, x: %d, y: %d -> Pontos: %d\n", s4, x4, y4, maximumGain(s4, x4, y4));
-
-    char s5[] = "aaaaa";
-    int x5 = 10, y5 = 5;
-    printf("String: %s, x: %d, y: %d -> Pontos: %d\n", s5, x5, y5, maximumGain(s5, x5, y5));
-
-    char s6[] = "bbbbb";
-    int x6 = 10, y6 = 5;
-    printf("String: %s, x: %d, y: %d -> Pontos: %d\n", s6, x6, y6, maximumGain(s6, x6, y6));
-    
-    return 0;
 }
