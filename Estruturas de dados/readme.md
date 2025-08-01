@@ -7,5 +7,5 @@
 
 - [ ] Lista encadeada
 - [x] Pilha
-- [ ] Fila
+- [x] Fila
 - [ ] Árvore binária
