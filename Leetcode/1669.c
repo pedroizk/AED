@@ -1,3 +1,6 @@
+// Meu recorde!! 17 minutos para um exercicio médio, sem uso de fontes externas.
+
+
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -17,14 +20,17 @@ struct ListNode* mergeInBetween(struct ListNode* list1, int a, int b, struct Lis
     struct ListNode* end2 = list1->next;
     struct ListNode* auxiliar;
 
+    int contador = 1;
+
     while(end2->next != NULL) {
 
-        if(end2->val == a)
+        if(contador == a) {
             end->next = list2;
 
-            while(end2->val != b)
+            while(contador != b)
             {
                 end2 = end2->next;
+                contador++;
             }
             auxiliar = end2->next;
 
@@ -40,7 +46,7 @@ struct ListNode* mergeInBetween(struct ListNode* list1, int a, int b, struct Lis
 
     
 
-        
+        contador++;
         end = end->next;
         end2 = end2->next;
     }
