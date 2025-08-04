@@ -5,7 +5,7 @@ struct TreeNode* construtor();
 int numOfWays(int* nums, int numsSize) {
     
     // possivel estratégia: primeiro montar a binary tree padrão a partir do array ordenado
-    // depois disso: alterarando todas os elementos menos o primeiro, comparar com o inicial
+    // depois disso: alterarando todas os elementos menos o primeiro, comparar com o inicial..
     
     struct TreeNode* inicial = construtor();
     builder(inicial, nums, numsSize);
@@ -24,7 +24,6 @@ void builder(struct TreeNode* nodo, int* array, int tamanho) {
     }
 
 }
-
 
 struct TreeNode* construtor() {
 

@@ -2,8 +2,8 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#define MOD 1000000007
-#define MAXN 1001
+#define MOD 1000000007 // Para o cálculo do módulo, necessário para não estourar o long long
+#define MAXN 1001 // Necessário para o alocar o espaço máximo para o triângulo de pascal
 
 long long pascalTable[MAXN][MAXN];
 
@@ -54,7 +54,7 @@ void construirPascal(int n)
     }
 }
 
-// ==============================================================================
+// ===============================================,===============================
 // FUNÇÃO: calculoCombinacoes
 // OBJETIVO:
 //     Recursivamente calcula o número de maneiras de gerar a mesma BST.
