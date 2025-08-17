@@ -6,11 +6,6 @@
  * };
  */
 
-// Crir um novo nodo iniciado em zero
-//  Achar o menor numero da linked list e apontar o zero para ele
-//  Rodar a lista novamente, achar o nodo com o menor valor da lista, apontar o
-//  item que guardamos para ele
-
 struct ListNode* sortList(struct ListNode* head) {
 
     struct ListNode* novo = malloc(sizeof(struct ListNode));
@@ -22,40 +17,30 @@ struct ListNode* sortList(struct ListNode* head) {
     if (head == NULL || head->next == NULL)
         return head;
 
-    struct ListNode* atual = head->next;
-    struct ListNode* anterior = head;
-    struct ListNode* menorAnterior = NULL;
-    int ordenado = 1;
-    struct ListNode* menor = anterior;
-
-    for(int i = 0; i< 4; i++) {
+    while (head != NULL) {
+        struct ListNode* atual = head->next;
+        struct ListNode* anterior = head;
+        struct ListNode* menorAnterior = NULL;
+        struct ListNode* menor = head;
 
         while (atual != NULL) {
-
             if (menor->val > atual->val) {
                 menorAnterior = anterior;
                 menor = atual;
-                 
             }
             atual = atual->next;
             anterior = anterior->next;
         }
 
-        
-
-        while(pNovo->next != NULL)
-        {
-            pNovo = pNovo->next;
-        }
-        pNovo->next = menor;
-        if(menor != NULL)
+        if (menor == head) {
+            head = head->next; 
+        } else {
             menorAnterior->next = menor->next;
+        }
         menor->next = NULL;
 
-        anterior = head;
-        atual = head->next; 
-        menor = anterior;
-        pNovo = novo;
+        pNovo->next = menor;
+        pNovo = pNovo->next;
     }
 
     return novo->next;
